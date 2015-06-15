@@ -1,0 +1,85 @@
+# template for "Guess the number" mini-project
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+import simplegui
+import random
+
+#will start the first game with a range of 0-100 with 7 guesses
+high = int(100)
+secret_number= random.randrange (0, high)
+count = 7
+
+
+# helper function to start and restart the game
+def new_game():
+    # initialize global variables used in your code here
+    print "New game"
+    global secret_number
+    global high
+    global count
+    set_count()
+    secret_number= random.randrange (0, high)
+
+# sets the guess counter depending on the range selected
+def set_count():	
+    global count 
+    if high == 1000:
+        count = 10
+    elif high == 100:
+        count = 7
+            
+# define event handlers for control panel
+def range100():
+    # button that changes the range to [0,100) and starts a new game     
+    print "Restarted with range: 0-100"
+    global secret_number
+    global high
+    secret_number = random.randrange (0, high)
+    new_game()
+
+def range1000():
+    # button that changes the range to [0,1000) and starts a new game     
+    print "Restarted with range: 0-1000"
+    global secret_number
+    global range 
+    global high
+    high = int(1000)
+    secret_number = random.randrange (0, high)
+    new_game()
+    
+def input_guess(guess):
+    global secret_number
+    global count
+
+    # convert the guess into an integer
+    guess_int = int(guess)
+    
+    #print the guess
+    print "Guess was " , guess_int
+    
+    #subtract one from the count
+    count -= 1
+    print "Guesses left:", count
+    
+    #evaluate guess compared to secret number
+    if guess_int == secret_number:
+        print "Correct, player wins!"
+        new_game()
+    elif count == 0:
+        print "Out of guesses, player loses."
+        new_game()
+    elif guess_int > secret_number :
+        print "Lower"
+    else:
+        print "Higher"
+    
+# create frame
+f = simplegui.create_frame("Guess", 200, 200)
+
+# register event handlers for control elements and start frame
+f.add_input("Enter Guess", input_guess, 100)
+button1= f.add_button("Range: 0-100", range100)
+button2= f.add_button( "Range: 0-1000", range1000)
+              
+# call new_game 
+new_game()
