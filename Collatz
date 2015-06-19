@@ -1,0 +1,47 @@
+#this program will take an input number and display the 
+#entire sequence of numbers (down to 1) using the following 
+#rules:
+#If the number is even, divide it by two.
+#If the number is odd, triple it and add one.
+
+import simplegui
+
+#sets a number to start the sequence
+input = 217
+print input 
+
+#the calculations
+def collatz():
+    global input
+    
+    if input == 1:
+		#stop the timer when you get to 1
+        print "End of sequence"
+        timer.stop()
+        
+    elif input % 2 == 0:
+        #input is even
+        input = input / 2
+        print input
+        return input
+
+    elif input % 2 != 0:
+        #input is odd 
+        input = (3 * input) + 1
+        print input
+        return input
+
+def tick():
+    #reset the calculation step with the new input
+    global input
+    collatz()
+
+#creates a timer with 50 millisecond intervals
+timer = simplegui.create_timer(50, tick)
+
+#start the timer, begin first iteration of the collatz 
+#function
+timer.start()
+collatz()
+
+
